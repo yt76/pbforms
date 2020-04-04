@@ -12,15 +12,14 @@ import (
 )
 
 type Server struct {
-	form forms.MyForm
 	writer *pbforms.FormWriter
 	reader *pbforms.FormReader
 }
 
 func NewServer() {
 	sv := Server{}
-	sv.form = forms.MyForm{}
-	sv.writer = pbforms.NewFormWriter(sv.form)
+	form := forms.MyForm{}
+	sv.writer = pbforms.NewFormWriter(form)
 	sv.reader = pbforms.NewFormReader()
 	http.HandleFunc("/", sv.handle)
 }
@@ -29,7 +28,7 @@ func (sv *Server) handle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf8")
 	if r.Method == "GET" {
 		fmt.Fprintf(w, "<html><body>\n")
-		sv.writer.Write(w)
+		sv.writer.Write("/", w)
 		fmt.Fprintf(w, "</body></html>\n")
 	}
 	if r.Method == "POST" {

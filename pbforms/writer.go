@@ -9,6 +9,7 @@ import (
 type FormWriter struct {
 	w io.Writer
 	f interface{}
+	path string
 }
 
 func NewFormWriter(f interface{}) *FormWriter {
@@ -25,8 +26,8 @@ func (fw *FormWriter) genField(name, valueType string) {
 	fmt.Fprintf(fw.w, "%v<input type=\"%v\" name=\"%v\"/><br/>\n", name, t, name)
 }
 
-func (fw *FormWriter) WriteHeader() {
-	fmt.Fprintf(fw.w, "<form method=\"POST\">\n")
+func (fw *FormWriter) WriteHeader(path string) {
+	fmt.Fprintf(fw.w, "<form method=\"POST\" action=\"%s\">\n", path)
 }
 
 func (fw *FormWriter) WriteFooter() {
@@ -34,9 +35,9 @@ func (fw *FormWriter) WriteFooter() {
 	fmt.Fprintf(fw.w, "</form>\n")
 }
 
-func (fw *FormWriter) Write(w io.Writer) {
+func (fw *FormWriter) Write(path string, w io.Writer) {
 	fw.w = w
-	fw.WriteHeader()
+	fw.WriteHeader(path)
 	v := reflect.Indirect(reflect.ValueOf(fw.f))
 	t := v.Type()
 	for i := 0; i < t.NumField(); i++ {
