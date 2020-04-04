@@ -20,5 +20,6 @@ TODO:
 * Multiple choices
 * Radio button
 * Option menu
-* Repeated fields
+* Repeated field
+* Hidden field (especially CSRF token)
 * Other fancy features
