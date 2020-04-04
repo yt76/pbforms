@@ -1,0 +1,11 @@
+syntax = "proto2";
+
+// protoc myform.proto --go_out=forms/
+
+package forms;
+
+message MyForm {
+  optional string name = 1;
+  optional int32 age = 2;
+  optional bool agree = 3;
+}
